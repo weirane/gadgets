@@ -1,9 +1,14 @@
 CXX := g++
-CXXFLAGS := -std=c++17 -Wall
+CXXFLAGS := -std=c++17 -Wall -g
 
-a.out: ff.cpp
-	$(CXX) $(CXXFLAGS) -g $^ -o $@
+all: point animal
 
-.PHONY: clean
+point: point.cpp
+	$(CXX) $(CXXFLAGS) $^ -o $@
+
+animal: animal.cpp
+	$(CXX) $(CXXFLAGS) $^ -o $@
+
+.PHONY: clean all
 clean:
-	rm -f a.out
+	rm -f point animal
