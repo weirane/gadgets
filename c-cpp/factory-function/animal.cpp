@@ -1,8 +1,8 @@
 #include <cstdio>
 using namespace std;
 
-enum AnimalKind {
-    dog, cat,
+enum class AnimalKind {
+    Dog, Cat,
 };
 
 class Animal {
@@ -33,19 +33,19 @@ public:
 
 auto Animal::choice(AnimalKind kind) -> Animal* {
     switch(kind) {
-    case AnimalKind::dog:
+    case AnimalKind::Dog:
         return new Dog();
-    case AnimalKind::cat:
+    case AnimalKind::Cat:
     default:
         return new Cat();
     }
 }
 
 int main() {
-    auto d = Animal::choice(AnimalKind::dog);
+    auto d = Animal::choice(AnimalKind::Dog);
     d->say();
 
-    auto c = Animal::choice(AnimalKind::cat);
+    auto c = Animal::choice(AnimalKind::Cat);
     c->say();
 
     delete d;
