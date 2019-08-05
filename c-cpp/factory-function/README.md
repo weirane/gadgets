@@ -5,7 +5,7 @@ std::vector<int> vec(92, 2);
 ```
 you have to check the documentation to find out what `vec` is.
 
-Having clearer "constructors" is just one of the advantages of using factory functions (`point.cpp`). It can solve many more problems, like you can define an interface for creating an object, but let subclasses decide which class to instantiate. Example is in `animal.cpp`.
+Having clearer "constructors" is just one of the advantages of using factory functions. It can also solve the problems when you cannot overload two constructors. For example, the arguments of the constructors are of the same type. See `point.cpp` for an example. Moreover, with factory functions, you can define an interface for creating an object, but let subclasses decide which class to instantiate, example in `animal.cpp`.
 
 Ref:
 - [Perils of Constructors](https://matklad.github.io/2019/07/16/perils-of-constructors.html)
