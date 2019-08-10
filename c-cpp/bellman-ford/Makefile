@@ -28,10 +28,10 @@ all:
 	@echo "    clean"
 
 $(TEST_DIR)%.o: %.cpp | $(TEST_DIR)
-	$(CXX) -c $(CXXFLAGS) -o $@ $^
+	$(CXX) -c $(CXXFLAGS) -o $@ $<
 
-$(DEBUG_DIR)%.o: %.cpp | $(DEBUG_DIR)
-	$(CXX) -c $(CXXFLAGS) -o $@ $^
+$(DEBUG_DIR)%.o: %.cpp graph.h | $(DEBUG_DIR)
+	$(CXX) -c $(CXXFLAGS) -o $@ $<
 
 $(CATCH_O): | $(TEST_DIR)
 	$(CXX) -x c++ -c $(CXXFLAGS) -o $@ \
