@@ -2,37 +2,38 @@
 using namespace std;
 
 enum class AnimalKind {
-    Dog, Cat,
+    Dog,
+    Cat,
 };
 
 class Animal {
 public:
-    static auto choice(AnimalKind kind) -> Animal*;
+    static auto choice(AnimalKind kind) -> Animal *;
 
     virtual auto say() -> void = 0;
-    virtual ~Animal() {};
+    virtual ~Animal(){};
 };
 
-class Dog: public Animal {
+class Dog : public Animal {
 public:
-    Dog() {};
+    Dog(){};
 
     auto say() -> void {
         printf("I am a dog.\n");
     }
 };
 
-class Cat: public Animal {
+class Cat : public Animal {
 public:
-    Cat() {};
+    Cat(){};
 
     auto say() -> void {
         printf("I am a cat.\n");
     }
 };
 
-auto Animal::choice(AnimalKind kind) -> Animal* {
-    switch(kind) {
+auto Animal::choice(AnimalKind kind) -> Animal * {
+    switch (kind) {
     case AnimalKind::Dog:
         return new Dog();
     case AnimalKind::Cat:
