@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-PROJECT := $(shell basename $(shell pwd))
+PROJECT := bellman-ford
 CXX := g++
 CXXFLAGS := -Wall -std=c++17
 MAIN := main
@@ -35,7 +35,7 @@ $(DEBUG_DIR)%.o: %.cpp | $(DEBUG_DIR)
 
 $(CATCH_O): | $(TEST_DIR)
 	$(CXX) -x c++ -c $(CXXFLAGS) -o $@ \
-		<(echo -e "#define CATCH_CONFIG_MAIN\n#include <catch2/catch.hpp>\n")
+		<(echo -e "#define CATCH_CONFIG_MAIN\n#include <catch2/catch.hpp>")
 
 $(TEST_DIR):
 	mkdir -p $@
