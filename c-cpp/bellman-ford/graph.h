@@ -48,6 +48,14 @@ public:
 
     auto add_edge(int from, int to, double weight) -> bool;
 
+    auto add_edge_both_way(int from, int to, double weight) -> bool {
+        if (this->node_count() <= from || this->node_count() <= to)
+            return false;
+        this->add_edge(from, to, weight);
+        this->add_edge(to, from, weight);
+        return true;
+    }
+
     auto add_node() -> void {
         this->nodes.push_back(Node::empty());
     }

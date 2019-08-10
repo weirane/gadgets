@@ -6,7 +6,7 @@ using std::make_tuple;
 using std::vector;
 
 auto Graph::add_edge(int from, int to, double weight) -> bool {
-    if (this->node_count() <= from || this->node_count() <= to)
+    if (auto nc = this->node_count(); nc <= from || nc <= to)
         return false;
 
     this->nodes[from].adj.push_back(Edge::with_weight(from, to, weight));
