@@ -1,13 +1,14 @@
 SHELL := /bin/bash
+PROJECT := $(shell basename $(shell pwd))
 CXX := g++
-CXXFLAGS := -Wall -std=c++17 -g
-DEBUG_BIN := main
-DEBUG_LIB := graph
-TEST_BIN := $(DEBUG_LIB)
+CXXFLAGS := -Wall -std=c++17
+MAIN := main
+DEBUG_LIB := graph bf
+TEST_COMPONENT := graph bf
 
-DEBUG_DIR := target/debug
-TEST_DIR := target/test
-CATCH_O := $(TEST_DIR)/catch-main-compiled.o
+DEBUG_DIR := target/debug/
+TEST_DIR := target/test/
+CATCH_O := $(TEST_DIR)catch-main-compiled.o
 
 # https://stackoverflow.com/a/14061796/10974106
 ifeq (test,$(firstword $(MAKECMDGOALS)))
@@ -17,10 +18,6 @@ endif
 ifeq (run,$(firstword $(MAKECMDGOALS)))
   RUN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
   $(eval $(RUN_ARGS):;@:)
-  CXXFLAGS := $(CXXFLAGS) -DCATCH_CONFIG_DISABLE
-endif
-ifeq (build,$(firstword $(MAKECMDGOALS)))
-  CXXFLAGS := $(CXXFLAGS) -DCATCH_CONFIG_DISABLE
 endif
 
 all:
@@ -30,10 +27,10 @@ all:
 	@echo "    run"
 	@echo "    clean"
 
-$(TEST_DIR)/%.o: %.cpp | $(TEST_DIR)
+$(TEST_DIR)%.o: %.cpp | $(TEST_DIR)
 	$(CXX) -c $(CXXFLAGS) -o $@ $^
 
-$(DEBUG_DIR)/%.o: %.cpp | $(DEBUG_DIR)
+$(DEBUG_DIR)%.o: %.cpp | $(DEBUG_DIR)
 	$(CXX) -c $(CXXFLAGS) -o $@ $^
 
 $(CATCH_O): | $(TEST_DIR)
@@ -46,19 +43,20 @@ $(TEST_DIR):
 $(DEBUG_DIR):
 	mkdir -p $@
 
-$(TEST_DIR)/$(TEST_BIN): $(CATCH_O) $(TEST_DIR)/$(TEST_BIN).o | $(TEST_DIR)
+$(TEST_DIR)$(PROJECT): $(CATCH_O) $(TEST_COMPONENT:%=$(TEST_DIR)%.o) | $(TEST_DIR)
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
-$(DEBUG_DIR)/$(DEBUG_BIN): $(DEBUG_DIR)/$(DEBUG_LIB).o $(DEBUG_DIR)/$(DEBUG_BIN).o | $(DEBUG_DIR)
+$(DEBUG_DIR)$(PROJECT): CXXFLAGS += -DCATCH_CONFIG_DISABLE -g
+$(DEBUG_DIR)$(PROJECT): $(DEBUG_LIB:%=$(DEBUG_DIR)%.o) $(DEBUG_DIR)$(MAIN).o | $(DEBUG_DIR)
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
-build: $(DEBUG_DIR)/$(DEBUG_BIN)
+build: $(DEBUG_DIR)$(PROJECT)
 
 run: build
-	@echo -e "\e[32;1m  Running:\e[m $(DEBUG_DIR)/$(DEBUG_BIN)"
-	@$(DEBUG_DIR)/$(DEBUG_BIN) $(RUN_ARGS)
+	@echo -e "\e[32;1m  Running:\e[m $(DEBUG_DIR)$(PROJECT)"
+	@$(DEBUG_DIR)$(PROJECT) $(RUN_ARGS)
 
-test: $(TEST_DIR)/$(TEST_BIN)
+test: $(TEST_DIR)$(PROJECT)
 	@echo -e "\e[32;1m  Running:\e[m $<"
 	@$< $(RUN_ARGS)
 
