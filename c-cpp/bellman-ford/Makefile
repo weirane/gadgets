@@ -63,4 +63,4 @@ test: $(TEST_DIR)$(PROJECT)
 clean:
 	$(RM) -r target
 
-.PHONY: clean test run build all
+.PHONY: clean test run build all $(RUN_ARGS)

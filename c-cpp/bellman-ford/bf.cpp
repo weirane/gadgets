@@ -18,7 +18,7 @@ auto bellman_ford(const Graph &graph, int start, std::vector<double> &dist,
         p = -1;
     for (auto &d : dist)
         d = std::numeric_limits<double>::infinity();
-    prev[start] = start;
+    prev[start] = -1;
     dist[start] = 0;
 
     // Relax |V|-1 times
@@ -70,7 +70,7 @@ TEST_CASE("Bellman Ford", "") {
         REQUIRE_FALSE(neg_cycle);
 
         auto dist_expected = vector<double>{0, 0, 3};
-        auto prev_expected = vector<int>{0, 2, 0};
+        auto prev_expected = vector<int>{-1, 2, 0};
 
         REQUIRE(vector<double>(dist.begin(), dist.begin() + 3)
                 == dist_expected);
@@ -96,7 +96,7 @@ TEST_CASE("Bellman Ford", "") {
         REQUIRE_FALSE(neg_cycle);
 
         auto dist_expected = vector<double>{0, -1, 2, -2, 1};
-        auto prev_expected = vector<int>{0, 0, 1, 4, 1};
+        auto prev_expected = vector<int>{-1, 0, 1, 4, 1};
         REQUIRE(dist == dist_expected);
         REQUIRE(prev == prev_expected);
     }

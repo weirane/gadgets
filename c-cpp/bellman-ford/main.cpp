@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
     else
         data = ifstream("data");
     if (!data.good()) {
-        cout << "Error open file `data'" << endl;
+        cout << "Error open data file" << endl;
         return 1;
     }
 

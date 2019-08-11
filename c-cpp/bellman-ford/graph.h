@@ -95,6 +95,9 @@ public:
 
     auto begin() -> GraphEdgeIter {
         auto node_begin = this->the_graph.nodes.cbegin();
+        while (node_begin->adj.empty()
+               && node_begin != this->the_graph.nodes.cend())
+            node_begin++;
         return GraphEdgeIter(this->the_graph, node_begin,
                              node_begin->adj.cbegin());
     }
