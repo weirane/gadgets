@@ -8,23 +8,21 @@ auto bellman_ford(const Graph &graph, int start, vector<double> &dist,
                   vector<int> &prev, bool &neg_cycle) -> bool;
 
 int main(int argc, char *argv[]) {
-    ifstream data;
-    if (argc > 1)
-        data = ifstream(argv[1]);
-    else
-        data = ifstream("data");
+    ifstream data = argc > 1 ? ifstream(argv[1]) : ifstream("data");
     if (!data.good()) {
         cout << "Error open data file" << endl;
         return 1;
     }
 
     int node_cnt, start;
+    if (!(data >> node_cnt >> start)) {
+        cout << "Error while reading data file" << endl;
+        return 1;
+    }
+
+    auto g = Graph::with_node_count(node_cnt);
     int from, to;
     double weight;
-
-    data >> node_cnt >> start;
-    auto g = Graph::with_node_count(node_cnt);
-
     while (data >> from >> to >> weight) {
         g.add_edge(from, to, weight);
     }
