@@ -53,11 +53,11 @@ $(DEBUG_DIR)$(PROJECT): $(DEBUG_LIB:%=$(DEBUG_DIR)%.o) $(DEBUG_DIR)$(MAIN).o | $
 build: $(DEBUG_DIR)$(PROJECT)
 
 run: build
-	@echo -e "\e[32;1m  Running:\e[m $(DEBUG_DIR)$(PROJECT)"
+	@echo -e "\e[32;1m  Running:\e[m $(DEBUG_DIR)$(PROJECT) $(RUN_ARGS)"
 	@$(DEBUG_DIR)$(PROJECT) $(RUN_ARGS)
 
 test: $(TEST_DIR)$(PROJECT)
-	@echo -e "\e[32;1m  Running:\e[m $<"
+	@echo -e "\e[32;1m  Running:\e[m $< $(RUN_ARGS)"
 	@$< $(RUN_ARGS)
 
 clean:
