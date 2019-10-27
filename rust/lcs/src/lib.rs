@@ -1,10 +1,13 @@
+#![feature(test)]
+extern crate test;
+
 use std::cmp::max;
 
 /// Checks whether `sub` is a sub sequence of `xs`.
 pub fn is_sub_seq<T: Eq>(sub: &[T], xs: &[T]) -> bool {
-    if sub.len() == 0 {
+    if sub.is_empty() {
         true
-    } else if xs.len() == 0 {
+    } else if xs.is_empty() {
         false
     } else if xs[0] == sub[0] {
         is_sub_seq(&sub[1..], &xs[1..])
@@ -84,5 +87,10 @@ mod tests {
     fn test_lcs() {
         assert_lcs!(b"HIEROGLYPHOLOGY", b"MICHAELANGELO");
         assert_lcs!(b"10010101", b"010110110");
+    }
+
+    #[bench]
+    fn lcs_bench(b: &mut test::Bencher) {
+        b.iter(|| lcs(b"HIEROGLYPHOLOGY", b"MICHAELANGELO"));
     }
 }
