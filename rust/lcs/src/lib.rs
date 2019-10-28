@@ -18,10 +18,19 @@ pub fn is_sub_seq<T: Eq>(sub: &[T], xs: &[T]) -> bool {
 }
 
 /// Finds a longest common subsequence of `xs` and `ys`.
-pub fn lcs<T: Eq + Copy>(xs: &[T], ys: &[T]) -> Vec<T> {
+pub fn lcs<T: Eq + Clone>(xs: &[T], ys: &[T]) -> Vec<T> {
     get_lcs(lcs_table(&xs, &ys).view(), xs.len(), ys.len())
         .iter()
-        .map(|&i| xs[i - 1])
+        .map(|&i| xs[i - 1].clone())
+        .collect()
+}
+
+/// Finds the indexes in `xs` of the elements in a longest common subsequence of
+/// `xs` and `ys`.
+pub fn lcs_idx<T: Eq>(xs: &[T], ys: &[T]) -> Vec<usize> {
+    get_lcs(lcs_table(&xs, &ys).view(), xs.len(), ys.len())
+        .iter()
+        .map(|&i| i - 1)
         .collect()
 }
 
@@ -66,6 +75,11 @@ mod tests {
     macro_rules! assert_lcs {
         ($xs:expr, $ys:expr) => {
             let seq = lcs($xs, $ys);
+            assert!(is_sub_seq(&seq, $xs));
+            assert!(is_sub_seq(&seq, $ys));
+
+            let idx = lcs_idx($xs, $ys);
+            let seq = idx.iter().map(|&i| $xs[i]).collect::<Vec<_>>();
             assert!(is_sub_seq(&seq, $xs));
             assert!(is_sub_seq(&seq, $ys));
         };
