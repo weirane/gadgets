@@ -1,6 +1,7 @@
 #![feature(test)]
 extern crate test;
 
+use ndarray::{Array2, ArrayView2};
 use std::cmp::max;
 
 /// Checks whether `sub` is a subsequence of `xs`.
@@ -18,21 +19,21 @@ pub fn is_sub_seq<T: Eq>(sub: &[T], xs: &[T]) -> bool {
 
 /// Finds a longest common subsequence of `xs` and `ys`.
 pub fn lcs<T: Eq + Copy>(xs: &[T], ys: &[T]) -> Vec<T> {
-    get_lcs(&lcs_table(&xs, &ys), xs.len(), ys.len())
+    get_lcs(lcs_table(&xs, &ys).view(), xs.len(), ys.len())
         .iter()
         .map(|&i| xs[i - 1])
         .collect()
 }
 
-fn get_lcs(table: &[Vec<usize>], i: usize, j: usize) -> Vec<usize> {
+fn get_lcs(table: ArrayView2<usize>, i: usize, j: usize) -> Vec<usize> {
     if i == 0 || j == 0 {
         Vec::new()
-    } else if table[i][j] == table[i - 1][j] {
-        get_lcs(&table, i - 1, j)
-    } else if table[i][j] == table[i][j - 1] {
-        get_lcs(&table, i, j - 1)
-    } else if table[i][j] == table[i - 1][j - 1] + 1 {
-        let mut ret = get_lcs(&table, i - 1, j - 1);
+    } else if table[[i, j]] == table[[i - 1, j]] {
+        get_lcs(table, i - 1, j)
+    } else if table[[i, j]] == table[[i, j - 1]] {
+        get_lcs(table, i, j - 1)
+    } else if table[[i, j]] == table[[i - 1, j - 1]] + 1 {
+        let mut ret = get_lcs(table, i - 1, j - 1);
         ret.push(i);
         ret
     } else {
@@ -40,17 +41,17 @@ fn get_lcs(table: &[Vec<usize>], i: usize, j: usize) -> Vec<usize> {
     }
 }
 
-fn lcs_table<T: Eq>(xs: &[T], ys: &[T]) -> Vec<Vec<usize>> {
-    let mut ret = vec![vec![0; ys.len() + 1]; xs.len() + 1];
+fn lcs_table<T: Eq>(xs: &[T], ys: &[T]) -> Array2<usize> {
+    let mut ret = Array2::zeros((xs.len() + 1, ys.len() + 1));
 
     for (i, x) in xs.iter().enumerate() {
         let i = i + 1;
         for (j, y) in ys.iter().enumerate() {
             let j = j + 1;
-            ret[i][j] = if x == y {
-                ret[i - 1][j - 1] + 1
+            ret[[i, j]] = if x == y {
+                ret[[i - 1, j - 1]] + 1
             } else {
-                max(ret[i - 1][j], ret[i][j - 1])
+                max(ret[[i - 1, j]], ret[[i, j - 1]])
             }
         }
     }
