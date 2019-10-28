@@ -3,7 +3,7 @@ extern crate test;
 
 use std::cmp::max;
 
-/// Checks whether `sub` is a sub sequence of `xs`.
+/// Checks whether `sub` is a subsequence of `xs`.
 pub fn is_sub_seq<T: Eq>(sub: &[T], xs: &[T]) -> bool {
     if sub.is_empty() {
         true
@@ -16,7 +16,7 @@ pub fn is_sub_seq<T: Eq>(sub: &[T], xs: &[T]) -> bool {
     }
 }
 
-/// Finds a longest common sequence of `xs` and `ys`.
+/// Finds a longest common subsequence of `xs` and `ys`.
 pub fn lcs<T: Eq + Copy>(xs: &[T], ys: &[T]) -> Vec<T> {
     get_lcs(&lcs_table(&xs, &ys), xs.len(), ys.len())
         .iter()

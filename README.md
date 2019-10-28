@@ -10,4 +10,4 @@ A collection of my gadgets.
 ### Rust
 - [`read-utf8`](rust/read-utf8): perform `cat(1)` on a UTF-8 encoded file.
 - [`merge-sort`](rust/merge-sort): merge sort algorithm.
-- [`lcs`](rust/lcs): longest common sequence algorithm.
+- [`lcs`](rust/lcs): longest common subsequence algorithm.
