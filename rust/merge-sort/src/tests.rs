@@ -42,15 +42,11 @@ fn test_basic() {
 fn bench_merge_sort(b: &mut test::Bencher) {
     const HOW_MANY: usize = 200;
 
-    let mut arr = Vec::with_capacity(HOW_MANY);
-    for _ in 0..HOW_MANY {
-        arr.push(rand::random::<i32>());
-    }
+    let mut arr: Vec<_> = (0..HOW_MANY).map(|_| rand::random::<i32>()).collect();
     let mut correct = arr.clone();
     correct.sort();
 
     b.iter(|| merge_sort(&mut arr));
-    for i in 0..HOW_MANY {
-        assert_eq!(arr[i], correct[i]);
-    }
+
+    assert!((0..HOW_MANY).all(|i| arr[i] == correct[i]));
 }
