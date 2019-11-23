@@ -99,13 +99,36 @@ mod tests {
     }
 
     #[test]
-    fn test_lcs() {
+    fn fixed() {
         assert_lcs!(b"HIEROGLYPHOLOGY", b"MICHAELANGELO");
         assert_lcs!(b"10010101", b"010110110");
     }
 
+    fn random(b: &mut test::Bencher, xlen: usize, ylen: usize) {
+        let xs: Vec<u8> = (0..xlen).map(|_| rand::random()).collect();
+        let ys: Vec<u8> = (0..ylen).map(|_| rand::random()).collect();
+        assert_lcs!(&xs, &ys);
+
+        b.iter(|| lcs(&xs, &ys));
+    }
+
     #[bench]
-    fn lcs_bench(b: &mut test::Bencher) {
-        b.iter(|| lcs(b"HIEROGLYPHOLOGY", b"MICHAELANGELO"));
+    fn size_64_256(b: &mut test::Bencher) {
+        random(b, 64, 256);
+    }
+
+    #[bench]
+    fn size_128_256(b: &mut test::Bencher) {
+        random(b, 128, 256);
+    }
+
+    #[bench]
+    fn size_256_256(b: &mut test::Bencher) {
+        random(b, 256, 256);
+    }
+
+    #[bench]
+    fn size_256_512(b: &mut test::Bencher) {
+        random(b, 256, 512);
     }
 }
