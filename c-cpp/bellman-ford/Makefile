@@ -11,11 +11,8 @@ TEST_DIR := target/test/
 CATCH_O := $(TEST_DIR)catch-main-compiled.o
 
 # https://stackoverflow.com/a/14061796/10974106
-ifeq (test,$(firstword $(MAKECMDGOALS)))
-  RUN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
-  $(eval $(RUN_ARGS):;@:)
-endif
-ifeq (run,$(firstword $(MAKECMDGOALS)))
+# https://stackoverflow.com/a/9802777
+ifneq (,$(filter $(firstword $(MAKECMDGOALS)),test run))
   RUN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
   $(eval $(RUN_ARGS):;@:)
 endif
