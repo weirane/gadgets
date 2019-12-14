@@ -144,29 +144,28 @@ impl CsrGraph {
         dst_q.push_back(dst);
 
         let intersect = loop {
-            match (src_q.pop_front(), dst_q.pop_front()) {
-                (Some(sn), Some(dn)) => {
-                    if sn == dst || dst_prt.contains_key(&sn) {
-                        break Some(sn);
-                    }
-                    for n in self.adjs(sn) {
-                        if n != src && !src_prt.contains_key(&n) {
-                            src_prt.insert(n, sn);
-                            src_q.push_back(n);
-                        }
-                    }
-
-                    if dn == sn || src_prt.contains_key(&dn) {
-                        break Some(dn);
-                    }
-                    for n in self.adjs(dn) {
-                        if n != dst && !dst_prt.contains_key(&n) {
-                            dst_prt.insert(n, dn);
-                            dst_q.push_back(n);
-                        }
+            if let (Some(sn), Some(dn)) = (src_q.pop_front(), dst_q.pop_front()) {
+                if sn == dst || dst_prt.contains_key(&sn) {
+                    break Some(sn);
+                }
+                for n in self.adjs(sn) {
+                    if n != src && !src_prt.contains_key(&n) {
+                        src_prt.insert(n, sn);
+                        src_q.push_back(n);
                     }
                 }
-                _ => break None,
+
+                if dn == sn || src_prt.contains_key(&dn) {
+                    break Some(dn);
+                }
+                for n in self.adjs(dn) {
+                    if n != dst && !dst_prt.contains_key(&n) {
+                        dst_prt.insert(n, dn);
+                        dst_q.push_back(n);
+                    }
+                }
+            } else {
+                break None;
             }
         };
 
