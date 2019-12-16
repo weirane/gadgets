@@ -58,5 +58,6 @@ if __name__ == '__main__':
     except Exception:
         minutes = 3
     app = TakeABreak()
+    app.attributes('-type', 'dialog')
     app.countdown(60 * minutes)
     app.mainloop()
