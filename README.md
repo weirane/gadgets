@@ -18,3 +18,6 @@ A collection of my gadgets.
 
 ### Python
 - [`take-a-break`](python/take-a-break): a small pop up window to remind you to take a break. You can use it with cron.
+- [`crawl-emoji`](python/crawl-emoji): crawl emojis from [wikipedia page].
+
+[wikipedia page]: https://en.wikipedia.org/wiki/Emoji
