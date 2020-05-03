@@ -14,6 +14,7 @@ class TakeABreak(tk.Tk):
         super().__init__()
 
         self.title('Take a break')
+        self.attributes('-type', 'dialog')
 
         s_height = self.winfo_screenheight()
         s_width = self.winfo_screenwidth()
@@ -58,6 +59,5 @@ if __name__ == '__main__':
     except Exception:
         minutes = 3
     app = TakeABreak()
-    app.attributes('-type', 'dialog')
     app.countdown(60 * minutes)
     app.mainloop()
