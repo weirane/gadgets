@@ -7,6 +7,7 @@ A collection of my gadgets.
 - [`bellman-ford`](c-cpp/bellman-ford): bellman-ford algorithm.
 - [`cmake-gtest`](c-cpp/cmake-gtest): example project of using cmake as its build tool and googletest as its unit test tool.
 - [`aes-encrypt`](c-cpp/aes-encrypt): use AES to encrypt a file.
+- [`x-sudoku`](c-cpp/x-sudoku): X-sudoku (diagonal sudoku) solver using forward checking and a little degree heuristic.
 
 ### Rust
 - [`read-utf8`](rust/read-utf8): perform `cat(1)` on a UTF-8 encoded file.
